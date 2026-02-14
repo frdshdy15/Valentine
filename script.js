@@ -37,29 +37,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Navigasi antar layar (Transisi smooth)
+
+    
 function goToScene(index) {
+    document.body.style.backgroundColor = "#590d22";
     scenes.forEach(scene => {
-        scene.classList.remove('active');
-        scene.style.opacity = '0';
-        scene.style.display = 'none'; // Tambahin ini biar beneran ilang
+        scenes.forEach(s => {
+        s.style.display = 'none';
+        s.classList.remove('active');
     });
 
     // Reset Flash kalau masih nyangkut
-    if (index === 1) {
+    if (index === 1) { // Scene DORR
+        flash.style.display = 'block';
         flash.classList.add('flash-active');
-        // Pastiin flash-nya ilang total setelah 0.8 detik
+        
         setTimeout(() => {
             flash.classList.remove('flash-active');
-            flash.style.display = 'none'; 
-        }, 800);
+            // Setelah flash ilang, cabut elemennya dari layar
+            setTimeout(() => { flash.style.display = 'none'; }, 500);
+        }, 600);
     }
-
+        
+    scenes[index].style.display = 'flex';
     setTimeout(() => {
-        scenes[index].style.display = 'flex';
-        setTimeout(() => {
-            scenes[index].classList.add('active');
-            scenes[index].style.opacity = '1';
-        }, 50);
+        scenes[index].classList.add('active');
+    }, 50);
         
         // KHUSUS STEP 3: Munculin tombol Enggak di posisi normal dulu
         if (index === 2) {
