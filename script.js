@@ -37,54 +37,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Navigasi antar layar (Transisi smooth)
-    function goToScene(index) {
-        scenes.forEach(scene => {
-            scene.classList.remove('active');
-            scene.style.opacity = '0';
-        });
+function goToScene(index) {
+    scenes.forEach(scene => {
+        scene.classList.remove('active');
+        scene.style.opacity = '0';
+        scene.style.display = 'none'; // Tambahin ini biar beneran ilang
+    });
 
-        if (index === 1) {
-            // Efek Flash Pas Masuk "Hi Aul" biar kaget (DORR!)
-            flash.classList.add('flash-active');
-            setTimeout(() => flash.classList.remove('flash-active'), 800);
-        }
+    // Reset Flash kalau masih nyangkut
+    if (index === 1) {
+        flash.classList.add('flash-active');
+        // Pastiin flash-nya ilang total setelah 0.8 detik
+        setTimeout(() => {
+            flash.classList.remove('flash-active');
+            flash.style.display = 'none'; 
+        }, 800);
+    }
 
+    setTimeout(() => {
+        scenes[index].style.display = 'flex';
         setTimeout(() => {
             scenes[index].classList.add('active');
             scenes[index].style.opacity = '1';
-        }, 100);
+        }, 50);
         
-        currentStep = index;
-    }
-
-    // Interaction buat pindah dari "Hi Aul" ke Pertanyaan
-    document.body.addEventListener('click', (e) => {
-        if (currentStep === 1) {
-            goToScene(2); // Pindah ke "Mau jalan ga?"
+        // KHUSUS STEP 3: Munculin tombol Enggak di posisi normal dulu
+        if (index === 2) {
+            btnNo.style.position = 'relative';
+            btnNo.style.left = '0';
+            btnNo.style.top = '0';
         }
-    });
+    }, 100);
+    
+    currentStep = index;
+}
 
-    // 4. THE "IMPOSSIBLE NO" BUTTON LOGIC (PENTING!)
-    // Tombol bakal loncat pas di-hover (PC) atau di-touch (HP)
-    const moveButton = () => {
-        // Ambil ukuran layar HP biar gak loncat keluar screen
-        const padding = 50;
-        const maxX = window.innerWidth - btnNo.offsetWidth - padding;
-        const maxY = window.innerHeight - btnNo.offsetHeight - padding;
+// Update fungsi moveButton biar gak ilang dari layar HP
+const moveButton = () => {
+    // Tombol jadi absolute pas mulai mau diklik doang
+    btnNo.style.position = 'fixed'; 
+    btnNo.style.zIndex = '9999';
 
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
+    // Itung batas aman biar gak keluar layar HP
+    const padding = 20;
+    const maxX = window.innerWidth - btnNo.offsetWidth - padding;
+    const maxY = window.innerHeight - btnNo.offsetHeight - padding;
 
-        // Ubah posisi tombol secara absolut
-        btnNo.classList.add('p-absolute');
-        btnNo.style.left = `${randomX}px`;
-        btnNo.style.top = `${randomY}px`;
-        
-        // Tambahin feedback suara klik gagal
-        clickSound.currentTime = 0;
-        clickSound.play();
-    };
+    // Acak posisi
+    const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+    const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
 
+    btnNo.style.left = `${randomX}px`;
+    btnNo.style.top = `${randomY}px`;
+    
+    clickSound.currentTime = 0;
+    clickSound.play().catch(() => {}); // Biar gak error kalau browser blokir audio
+};
     // Trigger buat HP (Touch) dan Mouse (Hover)
     btnNo.addEventListener('touchstart', (e) => {
         e.preventDefault(); // Biar gak kepencet
