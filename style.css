@@ -20,16 +20,17 @@
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    background: #590d22; /* Fallback */
-    background: linear-gradient(135deg, #590d22 0%, #800f2f 50%, #a4133c 100%);
-    color: var(--soft-white);
-    overflow: hidden; /* Prevent scrolling during scenes */
+    margin: 0;
+    padding: 0;
+    background-color: #590d22; /* Warna dasar gelap */
+    /* Gradient yang lebih ringan buat HP */
+    background-image: radial-gradient(circle at center, #a4133c 0%, #590d22 100%);
+    background-attachment: fixed;
     height: 100vh;
     width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
 }
 
 /* =========================================
@@ -123,15 +124,14 @@ body {
    4. SCENE CONTROLS
    ========================================= */
 .scene {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    inset: 0;
     display: none;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    z-index: 10;
-    text-align: center;
+    background: transparent !important; /* WAJIB TRANSPARAN */
+    z-index: 5;
 }
 
 .scene.active {
@@ -152,19 +152,16 @@ body {
 
 .flash-white {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #fff;
-    z-index: 9999; /* Paling atas pas dorr */
+    inset: 0;
+    background: #ffffff !important;
+    z-index: 9999;
     opacity: 0;
     pointer-events: none;
-    display: block; /* Pastiin keliatan pas flash-active */
+    transition: opacity 0.4s ease;
 }
 
 .flash-active {
-    animation: flashAnim 0.8s ease-out forwards;
+    opacity: 1 !important;
 }
 
 @keyframes flashAnim {
@@ -220,16 +217,14 @@ body {
    7. STEP 3: THE QUESTION (Interactive)
    ========================================= */
 .question-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--glass-border);
-    padding: 40px 30px;
-    border-radius: 30px;
-    box-shadow: var(--shadow-premium);
-    width: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Pake item transparan biar kontras sama pink */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Kalo HP gak kuat, dia bakal skip ini otomatis */
+    padding: 30px;
+    border-radius: 20px;
+    width: 85%;
     max-width: 350px;
-    position: relative;
-    overflow: hidden;
+    text-align: center;
 }
 
 .ask-text {
