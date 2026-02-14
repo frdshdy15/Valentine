@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Special for Aul</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="valentine-app">
+
+    <div id="loader" class="screen active">
+        <div class="loader-content">
+            <div class="heart-animation">
+                <div class="inner-heart"></div>
+            </div>
+            <p class="loading-text">Sedang menyiapkan sesuatu...</p>
+        </div>
+    </div>
+
+    <div id="flash-overlay" class="flash-white"></div>
+    <div id="particle-canvas-container"></div>
+
+    <main class="content-wrapper">
+
+        <section id="step-1" class="scene active">
+            <div class="vibe-container">
+                <div class="reveal-content">
+                    <h2 class="shock-text">DORR!</h2>
+                </div>
+            </div>
+        </section>
+
+        <section id="step-2" class="scene">
+            <div class="greeting-box">
+                <div class="floating-icons">
+                    <i class="fa-solid fa-heart floating e1"></i>
+                    <i class="fa-solid fa-star floating e2"></i>
+                </div>
+                <h1 class="main-msg">Hi Aul,</h1>
+                <p class="sub-msg">Happy Valentine yaa!</p>
+                <div class="tap-hint">
+                    <span>Klik di mana aja terserah</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="step-3" class="scene">
+            <div class="question-card">
+                <div class="glass-effect"></div>
+                <div class="card-content">
+                    <div class="icon-header">
+                        <i class="fa-solid fa-envelope-open-heart"></i>
+                    </div>
+                    <h2 class="ask-text">Mau jalan ga wkwkkwwk?</h2>
+                    
+                    <div class="btn-group">
+                        <button id="btn-yes" class="control-btn yes">Mau!</button>
+                        <button id="btn-no" class="control-btn no">Enggak</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="step-4" class="scene">
+            <div class="apology-box">
+                <div class="confetti-container" id="confetti"></div>
+                <div class="final-text-wrap">
+                    <p class="final-msg">jangan di anggep serius plsss, maafin kt ya ul, hehehehehe</p>
+                    <div class="smile-icon">:)</div>
+                </div>
+                <div class="footer-small">Happy Valentine, Aulia Putri Dikara.</div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="deco-elements">
+        <div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div>
+        <div class="bubble b4"></div><div class="bubble b5"></div><div class="bubble b6"></div>
+        <div class="bubble b7"></div><div class="bubble b8"></div><div class="bubble b9"></div>
+        <div class="bubble b10"></div>
+        <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+        <div class="line l1"></div><div class="line l2"></div><div class="line l3"></div>
+        <div class="line l4"></div><div class="line l5"></div><div class="line l6"></div>
+        <div class="line l7"></div><div class="line l8"></div><div class="line l9"></div>
+        <div class="line l10"></div>
+        <div class="layer-deep-1">
+            <div class="sub-layer-1"></div><div class="sub-layer-2"></div>
+            <div class="sub-layer-3"></div><div class="sub-layer-4"></div>
+        </div>
+        <div class="layer-deep-2">
+            <div class="sub-layer-1"></div><div class="sub-layer-2"></div>
+            <div class="sub-layer-3"></div><div class="sub-layer-4"></div>
+        </div>
+        <div class="layer-deep-3">
+            <div class="sub-layer-1"></div><div class="sub-layer-2"></div>
+            <div class="sub-layer-3"></div><div class="sub-layer-4"></div>
+        </div>
+        <div class="particle-wrap">
+            <div class="p p1"></div><div class="p p2"></div><div class="p p3"></div><div class="p p4"></div>
+            <div class="p p5"></div><div class="p p6"></div><div class="p p7"></div><div class="p p8"></div>
+            <div class="p p9"></div><div class="p p10"></div><div class="p p11"></div><div class="p p12"></div>
+            <div class="p p13"></div><div class="p p14"></div><div class="p p15"></div><div class="p p16"></div>
+            <div class="p p17"></div><div class="p p18"></div><div class="p p19"></div><div class="p p20"></div>
+            <div class="p p21"></div><div class="p p22"></div><div class="p p23"></div><div class="p p24"></div>
+            <div class="p p25"></div><div class="p p26"></div><div class="p p27"></div><div class="p p28"></div>
+            <div class="p p29"></div><div class="p p30"></div><div class="p p31"></div><div class="p p32"></div>
+            <div class="p p33"></div><div class="p p34"></div><div class="p p35"></div><div class="p p36"></div>
+            <div class="p p37"></div><div class="p p38"></div><div class="p p39"></div><div class="p p40"></div>
+            <div class="p p41"></div><div class="p p42"></div><div class="p p43"></div><div class="p p44"></div>
+            <div class="p p45"></div><div class="p p46"></div><div class="p p47"></div><div class="p p48"></div>
+            <div class="p p49"></div><div class="p p50"></div>
+        </div>
+        <div class="bg-shape s1"></div><div class="bg-shape s2"></div>
+        <div class="bg-shape s3"></div><div class="bg-shape s4"></div>
+        <div class="bg-shape s5"></div><div class="bg-shape s6"></div>
+    </div>
+
+    <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
