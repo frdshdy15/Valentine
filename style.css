@@ -1,15 +1,13 @@
 /* =========================================
-   1. RESET & FOUNDATION
+   1. CORE SETUP & RESET
    ========================================= */
 :root {
+    --vh: 1vh;
     --primary-pink: #ff4d6d;
     --secondary-pink: #ffb3c1;
-    --deep-red: #c9184a;
+    --deep-red: #590d22;
     --soft-white: #fff0f3;
-    --glass-bg: rgba(255, 255, 255, 0.15);
-    --glass-border: rgba(255, 255, 255, 0.3);
-    --shadow-premium: 0 8px 32px 0 rgba(255, 77, 109, 0.37);
-    --transition-smooth: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 * {
@@ -19,141 +17,65 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #590d22; /* Warna dasar gelap */
-    /* Gradient yang lebih ringan buat HP */
-    background-image: radial-gradient(circle at center, #a4133c 0%, #590d22 100%);
-    background-attachment: fixed;
-    height: 100vh;
-    width: 100vw;
+html, body {
+    height: 100%;
+    width: 100%;
     overflow: hidden;
+    position: fixed; /* Kunci biar gak goyang di HP */
+    background-color: var(--deep-red);
+}
+
+body {
+    height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-family: 'Montserrat', sans-serif;
+    /* Gradient stabil buat HP */
+    background: radial-gradient(circle at center, #a4133c 0%, #590d22 100%);
     color: white;
 }
 
 /* =========================================
-   2. LUXURY LOADER
+   2. SCENE CONTROLS (Anti-Mendem)
+   ========================================= */
+.scene {
+    position: fixed;
+    inset: 0;
+    display: none; /* Default sembunyi */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    z-index: 10;
+    background: transparent !important;
+}
+
+.scene.active {
+    display: flex;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* =========================================
+   3. OVERLAYS (Loader & Flash)
    ========================================= */
 .screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     background: #590d22;
-    transition: opacity 0.8s ease, visibility 0.8s;
-}
-
-.screen.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.heart-animation {
-    width: 100px;
-    height: 100px;
-    background-color: var(--primary-pink);
-    position: relative;
-    transform: rotate(45deg);
-    animation: heartBeat 1.2s infinite;
-}
-
-.heart-animation:before,
-.heart-animation:after {
-    content: "";
-    width: 100px;
-    height: 100px;
-    background-color: var(--primary-pink);
-    border-radius: 50%;
-    position: absolute;
-}
-
-.heart-animation:before { top: -50px; left: 0; }
-.heart-animation:after { left: -50px; top: 0; }
-
-@keyframes heartBeat {
-    0% { transform: rotate(45deg) scale(0.8); }
-    5% { transform: rotate(45deg) scale(0.9); }
-    10% { transform: rotate(45deg) scale(0.8); }
-    15% { transform: rotate(45deg) scale(1); }
-    50% { transform: rotate(45deg) scale(0.8); }
-    100% { transform: rotate(45deg) scale(0.8); }
-}
-
-/* =========================================
-   3. BACKGROUND & DECORATIONS (The "Bulk")
-   ========================================= */
-.deco-elements {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.bubble {
-    position: absolute;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(5px);
-    border-radius: 50%;
-    animation: float 20s infinite linear;
-}
-
-/* Creating 700 lines logic via deep selectors */
-.bubble.b1 { width: 80px; height: 80px; left: 10%; bottom: -100px; animation-duration: 15s; }
-.bubble.b2 { width: 40px; height: 40px; left: 20%; bottom: -100px; animation-duration: 18s; animation-delay: 2s; }
-.bubble.b3 { width: 120px; height: 120px; left: 70%; bottom: -100px; animation-duration: 25s; }
-.bubble.b4 { width: 60px; height: 60px; left: 85%; bottom: -100px; animation-duration: 20s; animation-delay: 5s; }
-/* ... [CSS structure continues for 500+ lines for animations] ... */
-
-@keyframes float {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.5; }
-    90% { opacity: 0.5; }
-    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-}
-
-/* =========================================
-   4. SCENE CONTROLS
-   ========================================= */
-.scene {
-    position: fixed;
-    inset: 0;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: transparent !important; /* WAJIB TRANSPARAN */
-    z-index: 5;
-}
-
-.scene.active {
-    display: flex;
-}
-
-/* =========================================
-   5. STEP 1: THE DORR EFFECT
-   ========================================= */
-.shock-text {
-    font-size: 6rem;
-    font-weight: 900;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    text-shadow: 0 0 30px rgba(255,255,255,0.8);
-    animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: opacity 0.5s ease;
 }
 
 .flash-white {
     position: fixed;
     inset: 0;
-    background: #ffffff !important;
+    background: #ffffff;
     z-index: 9999;
     opacity: 0;
     pointer-events: none;
@@ -164,228 +86,107 @@ body {
     opacity: 1 !important;
 }
 
-@keyframes flashAnim {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    100% { opacity: 0; }
+/* =========================================
+   4. TYPOGRAPHY (The Radiant Aul)
+   ========================================= */
+.shock-text {
+    font-size: 4.5rem;
+    font-weight: 900;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
 }
 
-/* =========================================
-   6. STEP 2: THE GREETING (Hi Aul)
-   ========================================= */
 .main-msg {
     font-family: 'Caveat', cursive;
-    font-size: 4.5rem;
-    margin-bottom: 10px;
-    
-    /* 1. Set background-nya dulu */
+    font-size: 4rem;
     background: linear-gradient(to right, #ffffff, #ffb3c1, #ffffff);
     background-size: 200% auto;
-    
-    /* 2. Potong background sesuai bentuk teks (Prefix Only) */
     -webkit-background-clip: text;
-    background-clip: text; /* Beberapa browser modern sudah dukung ini */
-    
-    /* 3. Bikin teks asli jadi transparan biar gradient-nya kelihatan */
-    /* HAPUS 'text-fill-color: transparent;' yang bikin error tadi */
-    -webkit-text-fill-color: transparent; 
-    
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: inline-block;
     animation: shine 3s linear infinite;
 }
 
-@keyframes shine {
-    to {
-        background-position: 200% center;
-    }
-}
-
-/* Biar gradient-nya gerak-gerak mewah */
-@keyframes shine {
-    to {
-        background-position: 200% center;
-    }
-}
-
-.sub-msg {
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    opacity: 0.8;
-}
-
 /* =========================================
-   7. STEP 3: THE QUESTION (Interactive)
+   5. QUESTION CARD & BUTTONS
    ========================================= */
 .question-card {
-    background: rgba(0, 0, 0, 0.3); /* Pake item transparan biar kontras sama pink */
+    background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px); /* Kalo HP gak kuat, dia bakal skip ini otomatis */
-    padding: 30px;
+    backdrop-filter: blur(10px);
+    padding: 30px 20px;
     border-radius: 20px;
     width: 85%;
     max-width: 350px;
-    text-align: center;
-}
-
-.ask-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    margin: 20px 0 30px;
 }
 
 .btn-group {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    position: relative;
-    height: 140px; /* Space for jumping button */
+    margin-top: 20px;
+    min-height: 150px;
 }
 
 .control-btn {
-    padding: 15px 40px;
+    padding: 15px;
     border-radius: 50px;
     border: none;
-    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;
-    transition: var(--transition-smooth);
     width: 100%;
+    transition: transform 0.2s ease;
 }
 
 .control-btn.yes {
     background: var(--primary-pink);
     color: white;
-    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
-    z-index: 2;
+    z-index: 5;
 }
 
 .control-btn.no {
     background: rgba(255, 255, 255, 0.1);
     color: white;
-    border: 1px solid var(--glass-border);
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: block !important; /* Paksa muncul */
-    visibility: visible !important;
+    border: 1px solid rgba(255,255,255,0.3);
+    z-index: 10;
 }
 
 /* =========================================
-   8. STEP 4: FINAL MESSAGE
+   6. ANIMATIONS
    ========================================= */
-.final-text-wrap {
-    padding: 20px;
-    animation: fadeIn 1.5s ease;
+@keyframes shine { to { background-position: 200% center; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes heartBeat {
+    0%, 100% { transform: rotate(45deg) scale(0.8); }
+    15% { transform: rotate(45deg) scale(1); }
 }
 
-.final-msg {
-    font-size: 1.4rem;
-    line-height: 1.6;
-    font-style: italic;
-    color: var(--secondary-pink);
+.heart-animation {
+    width: 80px; height: 80px;
+    background-color: var(--primary-pink);
+    position: relative;
+    transform: rotate(45deg);
+    animation: heartBeat 1.2s infinite;
 }
-
-.smile-icon {
-    font-size: 3rem;
-    margin-top: 20px;
-    animation: bounce 2s infinite;
+.heart-animation:before, .heart-animation:after {
+    content: ""; width: 80px; height: 80px;
+    background-color: var(--primary-pink);
+    border-radius: 50%; position: absolute;
 }
+.heart-animation:before { top: -40px; left: 0; }
+.heart-animation:after { left: -40px; top: 0; }
 
-/* =========================================
-   9. EXTRA ANIMATIONS (The 700 Lines Padding)
-   ========================================= */
-@keyframes zoomIn {
-    from { opacity: 0; transform: scale(0.3); }
-    to { opacity: 1; transform: scale(1); }
+.confetti-piece {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%; top: -10px;
+    animation: drop 3s linear forwards;
 }
+@keyframes drop { to { transform: translateY(105vh) rotate(360deg); opacity: 0; } }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-20px);}
-    60% {transform: translateY(-10px);}
-}
-
-/* Custom classes for JS hooks */
-.p-absolute { position: absolute !important; width: 120px !important; }
-.transition-out { opacity: 0; transform: translateY(-20px); transition: 0.5s; }
-
-/* Structural bulk to reach 700 lines logic in style engine */
-.layer-deep-1, .layer-deep-2, .layer-deep-3 {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;
-}
-.sub-layer-1 { opacity: 0.1; background: radial-gradient(circle, var(--primary-pink) 1px, transparent 1px); background-size: 20px 20px; }
-/* ... [Repeated complex styling for background depth] ... */
-
-/* Mobile Optimization */
+/* Fix Landing HP */
 @media (max-width: 480px) {
-    .shock-text { font-size: 4rem; }
-    .main-msg { font-size: 3.5rem; }
-    .question-card { width: 90%; }
-}
-/* 1. Pakai dynamic viewport height buat HP */
-:root {
-    --vh: 1vh; /* Nanti bakal di-update lewat JS */
-    --primary-pink: #ff4d6d;
-    --soft-white: #fff0f3;
-}
-
-html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Biar gak bisa di-scroll maksa */
-    position: fixed; /* Kunci layar HP */
-}
-
-body {
-    /* Pake calc biar beneran fit layar HP */
-    height: calc(var(--vh, 1vh) * 100);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #590d22 0%, #a4133c 100%);
-}
-
-/* 2. Scene harus nutupin seluruh layar tapi tetep flex */
-.scene {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; /* Fix mendem */
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 30px; /* Kasih ruang biar gak nempel tembok */
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.scene.active {
-    display: flex;
-}
-
-/* 3. Fix Button Group biar gak berantakan di layar kecil */
-.btn-group {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 250px;
-    margin-top: 30px;
-    position: relative; /* Penting buat anchor tombol loncat */
-}
-
-/* 4. Biar teks gak kegedean di HP layar kecil */
-@media (max-height: 600px) {
-    .main-msg { font-size: 3rem; }
     .shock-text { font-size: 3.5rem; }
-    .ask-text { font-size: 1.5rem; }
+    .main-msg { font-size: 3rem; }
 }
