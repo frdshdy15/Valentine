@@ -40,58 +40,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
 function goToScene(index) {
-    document.body.style.backgroundColor = "#590d22";
-    scenes.forEach(scene => {
-        scenes.forEach(s => {
+    scenes.forEach(s => {
         s.style.display = 'none';
         s.classList.remove('active');
     });
 
-    // Reset Flash kalau masih nyangkut
-    if (index === 1) { // Scene DORR
-        flash.style.display = 'block';
+    if (index === 1) { // Pas bagian "Hi Aul"
         flash.classList.add('flash-active');
         
+        // Hilangkan flash total setelah 600ms
         setTimeout(() => {
             flash.classList.remove('flash-active');
-            // Setelah flash ilang, cabut elemennya dari layar
-            setTimeout(() => { flash.style.display = 'none'; }, 500);
+            // Force hidden biar gak nutupin tombol
+            setTimeout(() => { flash.style.display = 'none'; }, 400);
         }, 600);
     }
-        
+
     scenes[index].style.display = 'flex';
     setTimeout(() => {
         scenes[index].classList.add('active');
     }, 50);
-        
-        // KHUSUS STEP 3: Munculin tombol Enggak di posisi normal dulu
-        if (index === 2) {
-            btnNo.style.position = 'relative';
-            btnNo.style.left = '0';
-            btnNo.style.top = '0';
-        }
-    }, 100);
     
     currentStep = index;
 }
 
-// Update fungsi moveButton biar gak ilang dari layar HP
-const moveButton = () => {
-    // Tombol jadi absolute pas mulai mau diklik doang
-    btnNo.style.position = 'fixed'; 
-    btnNo.style.zIndex = '9999';
+// Logic Gerak Tombol (Diperketat biar gak ilang)
+const moveButton = (e) => {
+    if (e) e.preventDefault();
+    
+    // Ambil ukuran tombol
+    const btnW = btnNo.offsetWidth;
+    const btnH = btnNo.offsetHeight;
+    
+    // Kasih batas yang lebih sempit biar gak nabrak pinggir HP
+    const margin = 40;
+    const maxX = window.innerWidth - btnW - margin;
+    const maxY = window.innerHeight - btnH - margin;
 
-    // Itung batas aman biar gak keluar layar HP
-    const padding = 20;
-    const maxX = window.innerWidth - btnNo.offsetWidth - padding;
-    const maxY = window.innerHeight - btnNo.offsetHeight - padding;
+    // Hitung posisi random
+    const x = Math.random() * (maxX - margin) + margin;
+    const y = Math.random() * (maxY - margin) + margin;
 
-    // Acak posisi
-    const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-    const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-
-    btnNo.style.left = `${randomX}px`;
-    btnNo.style.top = `${randomY}px`;
+    btnNo.style.position = 'fixed';
+    btnNo.style.left = x + 'px';
+    btnNo.style.top = y + 'px';
+    btnNo.style.transform = 'none';
+    btnNo.style.zIndex = '10000'; // Pastiin paling depan
     
     clickSound.currentTime = 0;
     clickSound.play().catch(() => {}); // Biar gak error kalau browser blokir audio
